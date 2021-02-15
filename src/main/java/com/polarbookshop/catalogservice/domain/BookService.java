@@ -1,6 +1,5 @@
 package com.polarbookshop.catalogservice.domain;
 
-import java.util.Collection;
 import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
@@ -12,8 +11,8 @@ import org.springframework.stereotype.Service;
 public class BookService {
     private final BookRepository bookRepository;
 
-    public Collection<Book> viewBookList() {
-        return bookRepository.findAllOrderByTitle();
+    public Iterable<Book> viewBookList() {
+        return bookRepository.findAll();
     }
 
     public Book viewBookDetails(String isbn) {
@@ -32,7 +31,7 @@ public class BookService {
         if (!bookRepository.existsByIsbn(isbn)) {
             throw new BookNotFoundException(isbn);
         }
-        bookRepository.delete(isbn);
+        bookRepository.deleteByIsbn(isbn);
     }
 
     public Book editBookDetails(String isbn, Book book) {
@@ -44,6 +43,7 @@ public class BookService {
         bookToUpdate.setTitle(book.getTitle());
         bookToUpdate.setAuthor(book.getAuthor());
         bookToUpdate.setPublishingYear(book.getPublishingYear());
-        return bookRepository.update(isbn, bookToUpdate);
+        bookToUpdate.setPrice(book.getPrice());
+        return bookRepository.save(bookToUpdate);
     }
 }
