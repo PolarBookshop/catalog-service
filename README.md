@@ -16,12 +16,11 @@
 
 ## Useful Commands
 
-| Gradle Command	         | Description                   |
-|:--------------------------:|:-----------------------------:|
-| `./gradlew bootRun`        | Run the application.          |
-| `./gradlew build`          | Build the application.        |
-| `./gradlew test`           | Run tests.                    |
-| `./gradlew bootBuildImage` | Containerize the application. |
+| Gradle Command	   | Description            |
+|:--------------------:|:----------------------:|
+| `./gradlew bootRun`  | Run the application.   |
+| `./gradlew build`    | Build the application. |
+| `./gradlew test`     | Run tests.              
 
 After building the application, you can also run it from the Java CLI:
 
@@ -29,25 +28,9 @@ After building the application, you can also run it from the Java CLI:
 java -jar build/libs/catalog-service-0.0.1-SNAPSHOT.jar
 ```
 
-## Docker tasks
+## Running a PostgreSQL Database (Docker)
 
-Run Catalog Service as a Docker container
-
-```bash
-docker run --name catalog-service -p 8080:8080 polarbookshop/catalog-service:0.0.1-SNAPSHOT
-```
-
-### Container Commands
-
-| Docker Command	              | Description       |
-|:-------------------------------:|:-----------------:|
-| `docker stop catalog-service`   | Stop container.   |
-| `docker start catalog-service`  | Start container.  |
-| `docker remove catalog-service` | Remove container. |
-
-## Running a PostgreSQL Database
-
-Run PostgreSQL as a Docker container
+Run PostgreSQL as a Docker container:
 
 ```bash
 docker run --name polardb-catalog -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -e POSTGRES_DB=polardb_catalog -p 5432:5432 -d postgres:13
@@ -75,3 +58,20 @@ docker exec -it polardb-catalog psql -U admin -d polardb_catalog
 | `\connect polardb_catalog` | Connect to specific database.  |
 | `\dt`                      | List all tables.               |
 | `\quit`                    | Quit interactive psql console. |
+
+## Running a PostgreSQL Database (Kubernetes)
+
+Run PostgreSQL as a Helm chart:
+
+```bash
+helm repo add bitnami https://charts.bitnami.com/bitnami
+```
+
+```bash
+helm install polardb-catalog bitnami/postgresql \
+  --set postgresqlUsername=admin \
+  --set postgresqlPassword=admin \
+  --set postgresqlDatabase=polardb_catalog \
+  --set image.tag=13 \
+  --set service.port=5432
+```
