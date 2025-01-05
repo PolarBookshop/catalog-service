@@ -21,10 +21,10 @@ repositories {
 }
 
 ext {
-	set('otelVersion', "1.33.3")
+	set('otelVersion', "1.33.6")
 	set('springCloudVersion', "2021.0.9")
-	set('testcontainersVersion', "1.19.8")
-	set('testKeycloakVersion', "3.3.1")
+	set('testcontainersVersion', "1.20.4")
+	set('testKeycloakVersion', "3.5.1")
 }
 
 dependencies {
@@ -66,7 +66,7 @@ bootRun {
 }
 
 bootBuildImage {
-	builder = "docker.io/paketobuildpacks/builder-jammy-base"
+	builder = "docker.io/paketobuildpacks/builder-noble-java-tiny"
 	imageName = "${project.name}"
 	environment = ["BP_JVM_VERSION": "17"]
 

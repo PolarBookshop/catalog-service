@@ -17,25 +17,25 @@ jobs:
   functional:
     name: Functional Acceptance Tests
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - run: echo "Running functional acceptance tests"
   performance:
     name: Performance Tests
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - run: echo "Running performance tests"
   security:
     name: Security Tests
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - run: echo "Running security tests"
   deliver:
     name: Deliver release candidate to production
     needs: [ functional, performance, security ]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Deliver application to production
         uses: peter-evans/repository-dispatch@v3
